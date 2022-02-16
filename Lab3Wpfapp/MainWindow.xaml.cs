@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,7 @@ namespace Lab3Wpfapp
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
@@ -69,7 +72,7 @@ namespace Lab3Wpfapp
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-           
+
             if (textBox.TextDecorations.Count == 0)
             {
                 textBox.TextDecorations.Add(TextDecorations.Underline);
@@ -104,5 +107,29 @@ namespace Lab3Wpfapp
                 textBox.Foreground = Brushes.Red;
             }
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog open_file_dialog = new OpenFileDialog();
+            open_file_dialog.Filter = "Текстовые файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
+            if (open_file_dialog.ShowDialog() == true)
+            {
+                textBox.Text = File.ReadAllText(open_file_dialog.FileName);
+            }
+        }
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog save_file_dialog = new SaveFileDialog();
+            save_file_dialog.Filter = "Текстовые файлы (*.txt)|*.txt|Все файлы (*.*)|*.*";
+            if (save_file_dialog.ShowDialog() == true)
+            {
+                File.WriteAllText(save_file_dialog.FileName, textBox.Text);
+            }
+        }
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
     }
 }
